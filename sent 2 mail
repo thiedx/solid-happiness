@@ -1,0 +1,24 @@
+def SetMsg():
+    """
+    邮件格式设置
+    :return:
+    """
+    msg = MIMEMultipart('mixed')
+    # 标题
+    msg['Subject'] = '照片'
+    msg['From'] = sender  # 发送方邮箱
+    msg['To'] = receiver  # 接收方邮箱
+
+    # 邮件正文
+    text = '照片到了,请接收'
+    text_plain = MIMEText(text, 'plain', 'utf-8')  # 正文转码
+    msg.attach(text_plain)
+
+    # 图片附件
+    SendImageFile = open('D:/控制摄像头拍照并发送邮件/frames.jpg', 'rb').read()
+    image = MIMEImage(SendImageFile)
+
+    # 将收件人看见的附件照片名称改为people.png.
+    image['Content-Disposition'] = 'attachment; filename = "people.png"'
+    msg.attach(image)
+    return msg.as_string()
